@@ -15,7 +15,7 @@ class BaseModel:
 
     def __str__(self):
         """Method that prints."""
-        return f"[{__class__.__name__}] ({self.id}) {self.__dict__}"
+        return f"[{self.__class__.__name__}] ({self.id}) {self.__dict__}"
 
     def save(self):
         """Method that updates the public instance attribute."""
@@ -23,8 +23,8 @@ class BaseModel:
 
     def to_dict(self):
         """Method that returns a dictionary containing keys/values."""
-        Dictionary = {
-            "__class__": __class__.__name__
-        }
-        Dictionary = self.__dict__.copy()
-        return Dictionary
+        obj_dict = self.__dict__.copy()
+        obj_dict['__class__'] = self.__class__.__name__
+        obj_dict['created_at'] = self.created_at.isoformat()
+        obj_dict['updated_at'] = self.updated_at.isoformat()
+        return obj_dict
