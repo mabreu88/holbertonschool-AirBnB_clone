@@ -121,8 +121,23 @@ class HBNBCommand(cmd.Cmd):
                 all_objects = storage.all()
                 print(all_objects)
 
-    def do_update(self):
+    def do_update(self, arg):
         """Method that updates an instance."""
+        args = arg.split()
+        if not arg:
+            print("** class name missing **")
+        elif args[0] not in self.__classes:
+            print("** class doesn't exist **")
+        elif len(arg) < 2:
+            print("** instance id missing **")
+        elif len(arg) < 3:
+            print("** attribute name missing **")
+        elif len(arg) < 4:
+            print("** value missing **")
+        else:
+            all_object = storage.all()
+            if args[1] not in all_object:
+                print ("** no instance found **")
 
     def do_quit(self, arg):
         """Method that quits the program."""
@@ -156,5 +171,7 @@ class HBNBCommand(cmd.Cmd):
         """Method that manages the help command for the EOF method."""
         print("EOF command exits the program.")
 
+
 if __name__ == '__main__':
+
     HBNBCommand().cmdloop()
