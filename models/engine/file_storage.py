@@ -33,12 +33,21 @@ class FileStorage:
 
     def reload(self):
         """ Method reload that deserializes the json file. """
+        classes = {
+            "BaseModel": BaseModel,
+            "User": User,
+            "State": State,
+            "City": City,
+            "Place": Place,
+            "Amenity": Amenity,
+            "Review": Review
+        }
         try:
             with open(FileStorage.__file_path) as f:
                 objdict = json.load(f)
                 for x in objdict.values():
                     clas_name = x["__class__"]
                     del x["__class__"]
-                    self.new(eval(clas_name(**x)))
+                    self.new(classes[clas_name](**x))
         except FileNotFoundError:
             return
