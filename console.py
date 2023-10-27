@@ -75,7 +75,7 @@ class HBNBCommand(cmd.Cmd):
         else:
             args = arg.split()
             if args[0] not in self.__classes:
-                print("** class doesn't exist **")
+                print("** class name missing **")
             elif len(args) < 2:
                 print("** instance id missing **")
             else:
@@ -88,16 +88,29 @@ class HBNBCommand(cmd.Cmd):
 
     def do_destroy(self, arg):
         """Method that deletes instances based on the class name and id"""
-        _input = arg.retl()
-        if not _input:
+        if not arg:
             print("** class name missing **")
-        elif _input[0] not in self.__classes:
+        else:
+            args = arg.split()
+        if args[0] not in self.__classes:
             print("** class doesn't exist **")
-        elif len(_input) < 2:
+        elif len(args) < 2:
             print("** instance id missing **")
+        else:
+            key = args[0] + "." + args[1]
+            all_objects = storage.all()
+            if key in all_objects:
+                del all_objects[key]
+                storage.save()
+            else:
+                print("** no instance found **")
 
-    def do_all(self):
+    def do_all(self, arg):
         """Method that prints all string representation of all instances"""
+        if input == all in self.__classes:
+            print(self.__classes)
+        else:
+            print("** class doesn't exist **")
 
     def do_quit(self, arg):
         """Method that quits the program."""
