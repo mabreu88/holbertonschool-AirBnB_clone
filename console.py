@@ -32,6 +32,7 @@ class HBNBCommand(cmd.Cmd):
     }
 
     def default(self, arg):
+        """Default Metod that matches arguments."""
 
         argdict = {
             "all": self.do_all,
@@ -107,6 +108,21 @@ class HBNBCommand(cmd.Cmd):
 
     def do_all(self):
         """Method that prints all string representation of all instances"""
+        if not arg:
+            all_objects = storage.all()
+            for key, obj in all_objets.items():
+                print(obj)
+        else:
+            if args[0] not in self.__classes:
+                print("** class doesn't exit **")
+            else:
+                args = args.split()
+                key = args[0]
+                all_objects = storage.all()
+                print(all_objects)
+
+    def do_update(self):
+        """Method that updates an instance."""
 
     def do_quit(self, arg):
         """Method that quits the program."""
@@ -118,8 +134,27 @@ class HBNBCommand(cmd.Cmd):
 
     def help_quit(self):
         """Method that manages the help for the commands.s"""
-        print("Prendiste fuego todo, sali cagando")
+        print("Quit command to exit the program.")
 
+    def help_create(self):
+        """Method that manages the help commando for the create method."""
+        print("Create command to create a new insance.")
+
+    def help_show(self):
+        """Method that manages the help command for the show method."""
+        print("Show command prints on screen infromation about instances.")
+
+    def help_destroy(self):
+        """Method that manages the help command for the destroy method."""
+        print("Destroy command deletes instances.")
+
+    def help_all(self):
+        """Method that manages the help command for the all method."""
+        print("All command displays all of the instances.")
+
+    def help_EOF(self):
+        """Method that manages the help command for the EOF method."""
+        print("EOF command exits the program.")
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
