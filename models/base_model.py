@@ -20,6 +20,8 @@ class BaseModel:
                     self.__dict__[k] = datetime.strptime(v, tform)
                 else:
                     self.__dict__[k] = v
+        else:
+            models.storage.new(self)
 
     def __str__(self):
         """Method that prints."""
@@ -28,6 +30,7 @@ class BaseModel:
     def save(self):
         """ Method that updates the public instance attribute."""
         self.updated_at = datetime.now()
+        models.storage.save()
 
     def to_dict(self):
         """ Method that returns a dictionary containing keys/values """
