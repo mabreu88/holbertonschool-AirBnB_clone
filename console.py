@@ -5,6 +5,7 @@ import re
 import json
 
 from shlex import split
+from models.engine.file_storage import FileStorage
 from models import storage
 from models.base_model import BaseModel
 from models.user import User
@@ -21,13 +22,13 @@ class HBNBCommand(cmd.Cmd):
     prompt = '(hbnb) '
 
     __classes = {
-        "BaseModel"
-        "User"
-        "State"
-        "City"
-        "Place"
-        "Amenity"
-        "Review"
+        "BaseModel": BaseModel,
+        "User": User,
+        "State": State,
+        "City": City,
+        "Place": Place,
+        "Amenity": Amenity,
+        "Review": Review
     }
 
     def parse(arg):
@@ -78,13 +79,15 @@ class HBNBCommand(cmd.Cmd):
         elif arg not in self.__classes:
             print("** class doesn't exist **")
         else:
-            instance = BaseModel
-            json.dump
+            for key, val in self.__classes.items():
+                if key == arg:
+                    instance = self.__classes[key](val)
+                    FileStorage.save(instance)
             print(f"{instance.id}")
 
     def do_show(self, arg):
         """Method that prints the string representation of an instance."""
-        _input = arg.split()
+        _input = arg.retl()
         if not _input:
             print("** class name missing **")
         elif _input[0] not in self.__classes:
@@ -94,7 +97,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_destroy(self, arg):
         """Method that deletes instances based on the class name and id"""
-        _input = arg.split()
+        _input = arg.retl()
         if not _input:
             print("** class name missing **")
         elif _input[0] not in self.__classes:
