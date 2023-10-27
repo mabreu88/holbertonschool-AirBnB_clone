@@ -105,12 +105,8 @@ class HBNBCommand(cmd.Cmd):
             else:
                 print("** no instance found **")
 
-    def do_all(self, arg):
+    def do_all(self):
         """Method that prints all string representation of all instances"""
-        if input == all in self.__classes:
-            print(self.__classes)
-        else:
-            print("** class doesn't exist **")
 
     def do_quit(self, arg):
         """Method that quits the program."""
