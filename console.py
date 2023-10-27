@@ -31,23 +31,6 @@ class HBNBCommand(cmd.Cmd):
         "Review": Review
     }
 
-    def parse(arg):
-        curvy_braces = re.search(r"\{(.*?)\}", arg)
-        brackets = re.search(r"\[(.*?)\]", arg)
-        if curvy_braces is None:
-            if brackets is None:
-                return [i.strip(",") for i in split(arg)]
-            else:
-                lexer = split(arg[:brackets.span()[0]])
-                retl = [i.strip(",") for i in lexer]
-                retl.append(brackets.group())
-                return retl
-        else:
-            lexer = split(arg[:curvy_braces.span()[0]])
-            retl = [i.strip(",") for i in lexer]
-            retl.append(curvy_braces.group())
-        return retl
-
     def default(self, arg):
 
         argdict = {
@@ -87,13 +70,21 @@ class HBNBCommand(cmd.Cmd):
 
     def do_show(self, arg):
         """Method that prints the string representation of an instance."""
-        _input = arg.retl()
-        if not _input:
+        if not arg:
             print("** class name missing **")
-        elif _input[0] not in self.__classes:
-            print("** class doesn't exist **")
-        elif len(_input) < 2:
-            print("** instance id missing **")
+        else:
+            args = arg.split()
+            if args[0] not in self.__classes:
+                print("** class doesn't exist **")
+            elif len(args) < 2:
+                print("** instance id missing **")
+            else:
+                key = args[0] + "." + args[1]
+                all_objects = storage.all()
+                if key in all_objects:
+                    print(all_objects[key])
+                else:
+                    print("** no instance found **")
 
     def do_destroy(self, arg):
         """Method that deletes instances based on the class name and id"""
