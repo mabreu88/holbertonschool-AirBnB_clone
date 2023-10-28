@@ -31,27 +31,6 @@ class HBNBCommand(cmd.Cmd):
         "Review": Review
     }
 
-    def default(self, arg):
-        """Default Metod that matches arguments."""
-
-        argdict = {
-            "all": self.do_all,
-            "show": self.do_show,
-            "destroy": self.do_destroy,
-            "create": self.do_create,
-        }
-        match = re.search(r"\.", arg)
-        if match is not None:
-            argl = [arg[:match.span()[0]], arg[match.span()[1]:]]
-            match = re.search(r"\((.*?)\)", argl[1])
-            if match is not None:
-                command = [argl[1][:match.span()[0]], match.group()[1:-1]]
-                if command[0] in argdict.keys():
-                    call = "{} {}".format(argl[0], command[1])
-                    return argdict[command[0]](call)
-        print("*** Unknown syntax: {}".format(arg))
-        return False
-
     def emptyline(self):
         """Method that creates an emppty line."""
         pass
@@ -110,7 +89,7 @@ class HBNBCommand(cmd.Cmd):
         """Method that prints all string representation of all instances"""
         if not arg:
             all_objets = storage.all()
-            for key,obj in all_objets.items():
+            for key, obj in all_objets.items():
                 print(obj)
         else:
             args = arg.split()
@@ -129,16 +108,31 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
         elif args[0] not in self.__classes:
             print("** class doesn't exist **")
-        elif len(arg) < 2:
+        elif len(args) < 2:
             print("** instance id missing **")
-        elif len(arg) < 3:
-            print("** attribute name missing **")
-        elif len(arg) < 4:
-            print("** value missing **")
         else:
-            all_object = storage.all()
-            if args[1] not in all_object:
-                print ("** no instance found **")
+            key = args[0] + "." + args[1]
+            all_objects = storage.all()
+            if key not in all_objects:
+                print("** no instance found **")
+            elif len(args) < 3:
+                print("** attribute name missing **")
+            elif len(args) < 4:
+                print("** value missing **")
+            else:
+                attribute_name = args[2]
+                attribute_value = args[3]
+                instance = all_objects[key]
+            if hasattr(instance, attribute_name):
+                attr_type = type(getattr(instance, attribute_name))
+                try:
+                    casted_value = attr_type(attribute_value)
+                    setattr(instance, attribute_name, casted_value)
+                    instance.save()
+                except (ValueError, TypeError):
+                    print("** invalid value **")
+            else:
+                print("** attribute name doesn't exist **")
 
     def do_quit(self, arg):
         """Method that quits the program."""
@@ -171,6 +165,10 @@ class HBNBCommand(cmd.Cmd):
     def help_EOF(self):
         """Method that manages the help command for the EOF method."""
         print("EOF command exits the program.")
+
+    def help_update(self):
+        """ Method that manages the help command for the update method. """
+        print("The Update command updates the class information.")
 
 
 if __name__ == '__main__':
