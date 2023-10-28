@@ -124,37 +124,27 @@ class HBNBCommand(cmd.Cmd):
                         print(obj)
 
     def do_update(self, arg):
-        """Method that updates an instance."""
-        args = arg.split()
+        arguments = arg.split()
         if not arg:
             print("** class name missing **")
-        elif args[0] not in self.__classes:
+        elif arguments[0] not in self.__classes:
             print("** class doesn't exist **")
-        elif len(args) < 2:
+        elif len(arguments) < 2:
             print("** instance id missing **")
         else:
-            key = args[0] + "." + args[1]
-            all_objects = storage.all()
-            instance = all_objects.get(key)
-            if key not in all_objects:
+            key = f"{arguments[0]}.{arguments[1]}"
+            if key not in storage.all().keys():
                 print("** no instance found **")
-            elif len(args) < 3:
+            elif len(arguments) < 3:
                 print("** attribute name missing **")
-            elif len(args) < 4:
+            elif len(arguments) < 4:
                 print("** value missing **")
             else:
-                attribute_name = args[2]
-                attribute_value = args[3]
-                if hasattr(instance, attribute_name):
-                    attr_type = type(getattr(instance, attribute_name))
-                    try:
-                        casted_value = attr_type(attribute_value)
-                        setattr(instance, attribute_name, casted_value)
-                        instance.save()
-                    except (ValueError, TypeError):
-                        print("** invalid value **")
-                    else:
-                        print("** attribute name doesn't exist **")
+                content = arguments[3]
+
+                element = storage.all()[key]
+                element.__setattr__(arguments[2], content)
+                element.save()
 
     def do_quit(self, arg):
         """Method that quits the program."""
