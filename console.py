@@ -122,7 +122,7 @@ class HBNBCommand(cmd.Cmd):
             else:
                 attribute_name = args[2]
                 attribute_value = args[3]
-                instance = all_objects[key]
+                instance = all_objects.get[key]
             if hasattr(instance, attribute_name):
                 attr_type = type(getattr(instance, attribute_name))
                 try:
