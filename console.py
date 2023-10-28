@@ -135,6 +135,7 @@ class HBNBCommand(cmd.Cmd):
         else:
             key = args[0] + "." + args[1]
             all_objects = storage.all()
+            instance = all_objects.get(key)
             if key not in all_objects:
                 print("** no instance found **")
             elif len(args) < 3:
@@ -144,7 +145,6 @@ class HBNBCommand(cmd.Cmd):
             else:
                 attribute_name = args[2]
                 attribute_value = args[3]
-                instance = all_objects.get(key)
             if hasattr(instance, attribute_name):
                 attr_type = type(getattr(instance, attribute_name))
                 try:
