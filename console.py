@@ -145,16 +145,16 @@ class HBNBCommand(cmd.Cmd):
             else:
                 attribute_name = args[2]
                 attribute_value = args[3]
-            if hasattr(instance, attribute_name):
-                attr_type = type(getattr(instance, attribute_name))
-                try:
-                    casted_value = attr_type(attribute_value)
-                    setattr(instance, attribute_name, casted_value)
-                    instance.save()
-                except (ValueError, TypeError):
-                    print("** invalid value **")
-            else:
-                print("** attribute name doesn't exist **")
+                if hasattr(instance, attribute_name):
+                    attr_type = type(getattr(instance, attribute_name))
+                    try:
+                        casted_value = attr_type(attribute_value)
+                        setattr(instance, attribute_name, casted_value)
+                        instance.save()
+                    except (ValueError, TypeError):
+                        print("** invalid value **")
+                    else:
+                        print("** attribute name doesn't exist **")
 
     def do_quit(self, arg):
         """Method that quits the program."""
