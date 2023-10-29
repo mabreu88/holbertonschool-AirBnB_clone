@@ -13,19 +13,20 @@ class Test_base_model(unittest.TestCase):
         my_object = BaseModel()
         first_updated = my_object.updated_at
         my_object.save()
-        second_updated = my_object.updated_at
-        self.assertNotEqual(first_updated, second_updated)
+        self.assertNotEqual(first_updated, my_object.updated_at)
 
     def to_dict_test(self):
         """Method that test the to_dicte Method."""
         dict_method = BaseModel()
+        keys = ['id', 'created_at', 'updated_at', '__class__']
         dict_result = dict_method.to_dict()
-        self.assertIsInstance(dict_result, dict)
+        for key in keys:
+            self.assertIn(key, dict_result)
 
     def self_id_test(self):
-        """Method that test the id attribute."""
+        """Method that test the id attribute to be string."""
         attribute_id = BaseModel()
-        self.assertEqual(type(attribute_id.id), str)
+        self.assertIsInstance((attribute_id.id), str)
 
     def created_at_test(self):
         """Method that test the created_at attribute."""
@@ -35,7 +36,10 @@ class Test_base_model(unittest.TestCase):
     def str_test(self):
         """Method that test the str method."""
         str_method = BaseModel()
-        self.assertEqual(type(str_method.__str__), str)
+        my_dict = str_method.__dict__
+        string1 = "[BaseModel] ({}) {}".format(str_method.id, my_dict)
+        string2 = str(str_method)
+        self.assertEqual(string1, string2)
 
 if __name__ == '__main__':
     unittest.main()
