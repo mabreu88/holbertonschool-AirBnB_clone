@@ -15,6 +15,12 @@ class Test_base_model(unittest.TestCase):
         my_object.save()
         self.assertNotEqual(first_updated, my_object.updated_at)
 
+    def another_save_test(self):
+        """Method that test the save Method."""
+        save_test = BaseModel()
+        self.assertIsInstance(save_test, BaseModel)
+
+
     def to_dict_test(self):
         """Method that test the to_dicte Method."""
         dict_method = BaseModel()
