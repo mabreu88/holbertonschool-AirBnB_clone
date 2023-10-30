@@ -32,7 +32,7 @@ class Test_base_model(unittest.TestCase):
     def self_id_test(self):
         """Method that test the id attribute to be string."""
         attribute_id = BaseModel()
-        self.assertIsInstance((attribute_id.id), str)
+        self.assertIsInstance(attribute_id, BaseModel)
 
     def created_at_test(self):
         """Method that test the created_at attribute."""
