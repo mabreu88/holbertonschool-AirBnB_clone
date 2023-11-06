@@ -156,6 +156,7 @@ class HBNBCommand(cmd.Cmd):
 
     def help_quit(self):
         """Method that manages the help for the commands.s"""
+
         print("Quit command to exit the program.")
 
     def help_create(self):
